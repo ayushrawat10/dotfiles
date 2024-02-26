@@ -113,5 +113,4 @@ alias ls="exa"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 eval "$(starship init zsh)"
-export RESEND_API_KEY=re_j2Q7nnAt_LeYbfeaj9GWhAopJu2zAaLRY
 source ~/powerlevel10k/powerlevel10k.zsh-theme
