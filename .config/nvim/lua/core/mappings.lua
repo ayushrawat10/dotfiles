@@ -4,11 +4,9 @@ local M = {}
 
 M.general = {
   i = {
-
     -- go to  beginning and end
     ["<C-b>"] = { "<ESC>^i", "Beginning of line" },
     ["<C-e>"] = { "<End>", "End of line" },
-    ["<leader>gs"] = { vim.cmd.git, "Git" },
 
     -- navigate within insert mode
     ["<C-h>"] = { "<Left>", "Move left" },
@@ -18,27 +16,8 @@ M.general = {
   },
 
   n = {
-    ["J"] = { "mzJ`z", "Cursor remains bring lower line up" },
-    ["C-u"] = { "C-d>zz", "Move half page down" },
-    ["C-d"] = { "C-u>zz", "Move half page down" },
-    ["<leader>y"] = { '"+y', "Copy to +y register" },
-    ["<leader>d"] = { '"_d', "Delete into void register" },
-    ["<C-K>"] = { "<cmd>cnext<CR>zz", "" },
-    ["<C-J>"] = { "<cmd>cprev<CR>zz", "" },
-    ["<leader>k"] = { "<cmd>lnext<CR>zz" },
-    ["<leader>j"] = { "<cmd>lprev<CR>zz" },
-
-    ["<Esc>"] = { ":noh <CR>", "Clear highlights" },
+    ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
     -- switch between windows
-    -- ["<C-h>"] = { "<cmd> TmuxNavigateLeft<CR>", "window left" },
-    -- ["<C-l>"] = { "<cmd> TmuxNavigateRight<CR>", "window right" },
-    -- ["<C-j>"] = { "<cmd> TmuxNavigateDown<CR>", "window down" },
-    -- ["<C-k>"] = { "<cmd> TmuxNavigateUp<CR>", "window up" },
-
-    -- ["<C-h>"] = { "<C-w>h", "Window left" },
-    -- ["<C-l>"] = { "<C-w>l", "Window right" },
-    -- ["<C-j>"] = { "<C-w>j", "Window down" },
-    -- ["<C-k>"] = { "<C-w>k", "Window up" },
 
     -- save
     -- ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
@@ -60,7 +39,7 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
 
     -- new buffer
-    -- ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
+    ["<leader>b"] = { "<cmd> enew <CR>", "New buffer" },
     ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
 
     ["<leader>fm"] = {
@@ -69,15 +48,6 @@ M.general = {
       end,
       "LSP formatting",
     },
-    -- ["<F5>"] = { ":lua require'dap'.continue()<CR>", "DAP Continue"},
-    -- ["<F10>"] = { ":lua require'dap'.step_over()<CR>", "DAP Step over" },
-    -- ["<F11>"] = { ":lua require'dap'.step_into()<CR>", "DAP Step into" },
-    -- ["<F12>"] = { ":lua require'dap'.step_out()<CR>", "DAP Step out" },
-    -- ["<leader>b"] = { ":lua require'dap'.toggle_breakpoint()<CR>", "DAP Toggle Breakpoint" },
-    -- ["<leader>B"] = { ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", "DAP Set Breakpoint condition" },
-    -- ["<leader>lp"] = { ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", "Log Point Message" },
-    -- ["<leader>dr"] = { ":lua require'dap'.repl.open()<CR>", "Repl Open" },
-    -- ["<leader>dt"] = { ":lua require'dap-go'.debug_test()<CR>", "Dap Go Debug Test" },
   },
 
   t = {
@@ -89,14 +59,9 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
-    ["J"] = { ":m'>+1<CR>gv=gv", "Move the whole selection down" },
-    ["K"] = { ":m'<-2<CR>gv=gv", "Move the whole selection up" },
-    ["<leader>y"] = { '"+y', "Paste without copying" },
-    ["<leader>d"] = { '"_d', "Delete into void register" },
   },
 
   x = {
-    ["<leader>pv"] = { '"_dP', "Paste without copying" },
     ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     -- Don't copy the replaced text after pasting in visual mode
@@ -175,12 +140,12 @@ M.lspconfig = {
       "LSP definition",
     },
 
-    -- ["K"] = {
-    --   function()
-    --     vim.lsp.buf.hover()
-    --   end,
-    --   "LSP hover",
-    -- },
+    ["K"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "LSP hover",
+    },
 
     ["gi"] = {
       function()
@@ -224,7 +189,7 @@ M.lspconfig = {
       "LSP references",
     },
 
-    ["<leader>f"] = {
+    ["<leader>lf"] = {
       function()
         vim.diagnostic.open_float { border = "rounded" }
       end,
@@ -314,7 +279,7 @@ M.telescope = {
     ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "Git status" },
 
     -- pick a hidden term
-    -- ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "Pick hidden term" },
+    ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "Pick hidden term" },
 
     -- theme switcher
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "Nvchad themes" },
@@ -374,12 +339,12 @@ M.nvterm = {
     },
 
     -- new
-    -- ["<leader>h"] = {
-    --   function()
-    --     require("nvterm.terminal").new "horizontal"
-    --   end,
-    --   "New horizontal term",
-    -- },
+    ["<leader>h"] = {
+      function()
+        require("nvterm.terminal").new "horizontal"
+      end,
+      "New horizontal term",
+    },
 
     ["<leader>v"] = {
       function()
@@ -473,12 +438,12 @@ M.gitsigns = {
       "Reset hunk",
     },
 
-    -- ["<leader>ph"] = {
-    --   function()
-    --     require("gitsigns").preview_hunk()
-    --   end,
-    --   "Preview hunk",
-    -- },
+    ["<leader>ph"] = {
+      function()
+        require("gitsigns").preview_hunk()
+      end,
+      "Preview hunk",
+    },
 
     ["<leader>gb"] = {
       function()

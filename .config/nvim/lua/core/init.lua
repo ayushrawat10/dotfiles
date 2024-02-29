@@ -1,6 +1,5 @@
 local opt = vim.opt
 local g = vim.g
-g.mapleader = " "
 local config = require("core.utils").load_config()
 
 -------------------------------------- globals -----------------------------------------
@@ -55,29 +54,11 @@ opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
 
-
--- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
--- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
--- vim.keymap.set("n", "J", "mzJ`z")
--- vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- vim.keymap.set("n", "<C-u>", "<C-u>zz")
--- vim.keymap.set("x", "<leader>p", "\"_dP")
--- vim.keymap.set("n", "<leader>y", "\"+y")
--- vim.keymap.set("v", "<leader>y", "\"+y")
--- vim.keymap.set("n", "<leader>Y", "\"+Y")
--- vim.keymap.set("n", "<leader>d", "\"_d")
--- vim.keymap.set("v", "<leader>d", "\"_d")
--- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
--- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
--- vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
--- vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
-
-
-
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append "<>[]hl"
 
+g.mapleader = " "
 
 -- disable some default providers
 for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
@@ -132,6 +113,32 @@ autocmd("BufWritePost", {
 
     require("base46").load_all_highlights()
     -- vim.cmd("redraw!")
+  end,
+})
+
+-- user event that loads after UIEnter + only if file buf is there
+vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
+  callback = function(args)
+    local file = vim.api.nvim_buf_get_name(args.buf)
+    local buftype = vim.api.nvim_buf_get_option(args.buf, "buftype")
+
+    if not vim.g.ui_entered and args.event == "UIEnter" then
+      vim.g.ui_entered = true
+    end
+
+    if file ~= "" and buftype ~= "nofile" and vim.g.ui_entered then
+      vim.api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
+      vim.api.nvim_del_augroup_by_name "NvFilePost"
+
+      vim.schedule(function()
+        vim.api.nvim_exec_autocmds("FileType", {})
+
+        if vim.g.editorconfig then
+          require("editorconfig").config(args.buf)
+        end
+      end, 0)
+    end
   end,
 })
 

@@ -6,20 +6,14 @@ M.treesitter = {
     "lua",
     "html",
     "css",
-    "go",
-    "c",
-    "cpp",
-    "rust",
-    "cpp",
     "javascript",
     "typescript",
     "tsx",
     "c",
     "markdown",
     "markdown_inline",
-    "yaml",
-    "json",
-    "jsonc",
+    "go",
+    "rust"
   },
   indent = {
     enable = true,
@@ -46,10 +40,16 @@ M.mason = {
     "clangd",
     "clang-format",
 
-    -- for dotfiles and configuration files
-    "yaml-language-server",
-    "json-languageserver",
-    
+    -- go stuff
+    "gopls",
+    "gofumpt",
+    "goimports",
+    "golangci-lint",
+    "gotests",
+    "go-debug-adapter",
+
+    -- shell stuff
+    "shfmt",
   },
 }
 
